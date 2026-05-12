@@ -1,3 +1,24 @@
 <%- include('./partials/header') %>
 <h1 class="text-3xl font-bold">Home</h1>
+<% if(user){ %>
+    <a href="/messages/new" class="my-10 bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700 font-medium">Create a message</a>
+<% } %>
+<div class="flex flex-col gap-8 ">
+    <% for( let i = 0; i < messages.length; i++ ) { %>
+        <div class="flex flex-col bg-indigo-900 p-6 text-white text-2xl gap-5">
+            <p>Title: <%= messages[i].title %></p>
+            <p>Text: <%= messages[i].text %></p>
+            <p>Created at: <%= (user&&user.is_member)? messages[i].created_at :"*****"%></p>
+            <p>Created by: <%= (user&&user.is_member)? messages[i].first_name +" "+messages[i].last_name:"*****"%></p>
+            <% if(user&&user.is_admin) {%>
+                <form action="/messages/<%= messages[i].id %>/delete" method="POST">
+                    <button type="submit" class="bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700 font-medium">Delete</button>
+                </form>
+            <% } %>
+        </div>
+    <% } %>
+</div>
+
+
+ 
 <%- include('./partials/footer') %>

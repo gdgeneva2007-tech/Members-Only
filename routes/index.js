@@ -3,9 +3,14 @@
 
 const express = require("express");
 const router = express.Router();
-
-router.get("/", (req, res) => {
-  res.render("index", { title: "Home" });
+const db=require("../db/queries")
+router.get("/", async(req, res,next) => {
+  try{
+    const messages=await db.getAllMessages();
+    res.render("index",{title:"Home", messages:messages})
+  }catch(err){
+    next(err)
+  }
 });
 
 module.exports = router;

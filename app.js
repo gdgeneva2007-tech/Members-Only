@@ -14,6 +14,8 @@ const pool = require("./db/pool");
 // ── ADD YOUR ROUTERS HERE ──────────────────────────────
 const indexRouter = require("./routes/index");
 const authRouter = require("./routes/auth");
+const memberRouter=require("./routes/member")
+const messagesRouter=require("./routes/messages")
 // const yourRouter = require("./routes/yourRouter");
 // ──────────────────────────────────────────────────────
 
@@ -28,7 +30,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // SESSION - must be before passport
 app.use(session({
-  store: new pgSession({ pool, tableName: "session" }),
+  store: new pgSession({ pool, tableName: "session" ,createTableIfMissing: true}),
   secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
@@ -48,6 +50,8 @@ app.use((req, res, next) => {
 // ── ADD YOUR ROUTES HERE ───────────────────────────────
 app.use("/", indexRouter);
 app.use("/auth", authRouter);
+app.use("/member", memberRouter)
+app.use("/messages",messagesRouter)
 // app.use("/your-resource", yourRouter);
 // ──────────────────────────────────────────────────────
 

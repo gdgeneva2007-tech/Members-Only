@@ -4,7 +4,7 @@
 const express = require("express");
 const router = express.Router();
 const {
-  signupValidationRules,
+  signupValidationRules,loginValidationRules,
   getSignupForm,
   postSignup,
   getLoginForm,
@@ -16,7 +16,7 @@ const { ensureGuest } = require("../middleware/auth");
 router.get("/signup", ensureGuest, getSignupForm);
 router.post("/signup", ensureGuest, signupValidationRules, postSignup);
 router.get("/login", ensureGuest, getLoginForm);
-router.post("/login", postLogin);
+router.post("/login", loginValidationRules,postLogin);
 router.post("/logout", logout);
 
 module.exports = router;

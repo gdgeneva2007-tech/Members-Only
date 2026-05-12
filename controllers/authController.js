@@ -6,6 +6,16 @@ const passport = require("../config/passport");
 const db = require("../db/queries");
 const { body, validationResult } = require("express-validator");
 
+const loginValidationRules = [
+  body("email")
+    .trim()
+    .normalizeEmail()   // ← converts to lowercase before passport runs
+    .isEmail()
+    .withMessage("Please enter a valid email."),
+  body("password")
+    .notEmpty()
+    .withMessage("Password is required.")
+];
 const signupValidationRules = [
   body("firstName").trim().notEmpty().withMessage("First name is required."),
   body("lastName").trim().notEmpty().withMessage("Last name is required."),
@@ -82,7 +92,7 @@ const logout = (req, res, next) => {
 };
 
 module.exports = {
-  signupValidationRules,
+  signupValidationRules,loginValidationRules,
   getSignupForm,
   postSignup,
   getLoginForm,

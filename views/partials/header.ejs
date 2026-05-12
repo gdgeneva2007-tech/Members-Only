@@ -18,6 +18,20 @@
               Log Out
             </button>
           </form>
+
+          <% if(!user.is_member) {%>
+            <form action="/member/join" method="GET">
+              <button type="submit" class="text-sm text-gray-500 hover:text-gray-700">
+                Join Club
+              </button>
+            </form>
+          <% } %>
+          
+          <% if(user.is_member&&!user.is_admin){ %>
+            <form action="/member/admin" method="GET">
+              <button type="submit" class="text-sm text-gray-500 hover:text-gray-700">Join Admin</button>
+            </form>
+          <% } %>
         <% } else { %>
           <a href="/auth/login" class="text-sm text-gray-600">Log In</a>
           <a href="/auth/signup" class="text-sm bg-indigo-600 text-white px-4 py-1.5 rounded-lg hover:bg-indigo-700">

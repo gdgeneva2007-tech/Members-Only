@@ -11,10 +11,25 @@ passport.use(
     { usernameField: "email", passwordField: "password" },
     async (email, password, done) => {
       try {
+        // DEBUG 1: did passport receive the form values?
+        console.log("=== PASSPORT LOGIN ATTEMPT ===");
+        console.log("Email received:", email);
+        console.log("Password received:", password);
+
         const user = await db.getUserByEmail(email);
+
+        // DEBUG 2: did we find the user in the database?
+        console.log("User found in database:", user);
+
         if (!user) {
           return done(null, false, { message: "Incorrect email or password." });
         }
+
+        // DEBUG 3: what are we comparing?
+        console.log("Comparing:");
+        console.log("  Plain password from form:", password);
+        console.log("  Hashed password from db:", user.password);
+
         const match = await bcrypt.compare(password, user.password);
         if (!match) {
           return done(null, false, { message: "Incorrect email or password." });
